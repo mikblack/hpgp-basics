@@ -6,6 +6,13 @@ Looking at region around IRGM gene:
 - IRGM (GRCh38 coordinates): `GRCh38#chr5	150846521	150900736   IRGM`
 - Wider region: `GRCh38#chr5	150796521	150950736	IRGM_REGION`
 
+## ODGI 
+
+ODGI: "optimized dynamic genome/graph implementation"
+
+- Documentation: https://odgi.readthedocs.io/en/latest/
+- Paper: https://academic.oup.com/bioinformatics/article/38/13/3319/6585331
+
 Download minigraph-cactus graph for chr5 in `og` format (`og` is graph format used by `odgi`):
 
 ```
@@ -179,3 +186,12 @@ HG00438#1#JAHBCB010000243.1#0	89841        1789
 HG00438#2#JAHBCA010000050.1#0	32170210     643272
 HG00438#2#JAHBCA010000084.1#0	12116057     109397
 ```
+
+## VG
+
+vg: variation graph
+
+- GitHub: https://github.com/vgteam/vg
+- Documentation: https://vg.readthedocs.io/en/latest/
+- Paper (vg toolkit): https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-1941-7
+
