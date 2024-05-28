@@ -25,8 +25,8 @@ odgi stats -i chr5.full.og -S
 ```
 
 ```
-#length     nodes    edges	  paths      steps
-549588408   5020820  6987667    920	 264452630
+#length     nodes    edges    paths      steps
+549588408   5020820  6987667    920  264452630
 ```
 
 Base composition:
