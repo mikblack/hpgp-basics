@@ -146,5 +146,37 @@ odgi paths -i chr22.full.og -H > chr22-paths-haplotypes.txt
 ```
 
 ```{bash}
-cat chr22-paths-haplotypes.txt | tail -n+2 | cut -d'#' -f1 | sort | uniq -c
+cat chr22-paths-haplotypes.txt | tail -n+2 | cut -d'#' -f1-2 | cut -d$'\t' -f1 | sort | uniq -c
 ```
+
+Can see that some sample haplotypes have multiple paths:
+
+```
+      1 CHM13#chr22
+      1 GRCh38#chr22
+      4 HG00438#1
+      2 HG00438#2
+      3 HG00621#1
+      2 HG00621#2
+      7 HG00673#1
+      4 HG00673#2
+      3 HG00733#1
+      3 HG00733#2
+```
+
+Let's look at HG00438
+
+```{bash}
+grep HG00438 chr22-paths-haplotypes.txt | cut -d$'\t' -f1-3
+```
+
+```
+HG00438#1#JAHBCB010000005.1#0	39720081	635948
+HG00438#1#JAHBCB010000087.1#0	4368431	    112354
+HG00438#1#JAHBCB010000195.1#0	553482	    16292
+HG00438#1#JAHBCB010000243.1#0	89841	    1789
+HG00438#2#JAHBCA010000050.1#0	32170210	643272
+HG00438#2#JAHBCA010000084.1#0	12116057	109397
+```
+
+Columns are: `path.name`,	`path.length`,	`path.step.count`
