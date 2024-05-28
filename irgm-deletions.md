@@ -148,7 +148,7 @@ odgi paths -i chr22.full.og -H > chr22-paths-haplotypes.txt
 ```{bash}
 cat chr22-paths-haplotypes.txt | tail -n+2 | cut -d'#' -f1-2 | cut -d$'\t' -f1 | sort | uniq -c
 ```
-
+ 
 Can see that some sample haplotypes have multiple paths:
 
 ```
