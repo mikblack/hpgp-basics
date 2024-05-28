@@ -30,4 +30,5 @@ Plot the extracted graph:
 odgi sort -i irgm-region-chr5.og -o - -O | odgi viz -i - -o irgm_region.png -s '#'
 ```
 
+<img src="Images/irgm_region.png" height="400">
 
