@@ -84,6 +84,28 @@ odgi sort -i irgm-region-chr5.og -o - -O | odgi viz -i - -o irgm_region.png -s '
 
 <img src="Images/irgm_region.png" height="400">
 
+Sort and optimise graph:
+
+```{bash}
+odgi sort -i irgm-region-chr5.og -O -o irgm-region-chr5-sorted-optimised.og 
+```
+
+Generate layout
+
+```{bash}
+odgi layout -i irgm-region-chr5-sorted-optimised.og -o irgm-region-chr5.lay
+```
+
+Create 2D plot:
+
+```{bash}
+odgi draw -i irgm-region-chr5-sorted-optimised.og -p irgm_region-2d.png -c irgm-region-chr5.lay
+```
+
+<img src="Images/irgm_region-2d.png" height="150">
+
+
+
 Haplotypes - note, the output is WIDE (lists all nodes: 3671 for teh IRGM region), so output is truncated to first 10 rows and columns:
 
 ```{bash}
@@ -192,6 +214,13 @@ HG00438#2#JAHBCA010000084.1#0	12116057     109397
 vg: variation graph
 
 - GitHub: https://github.com/vgteam/vg
-- Documentation: https://vg.readthedocs.io/en/latest/
+- Documentation: https://github.com/vgteam/vg/wiki
 - Paper (vg toolkit): https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-1941-7
+
+
+Download `vg` formatted graph for chromosome 5:
+
+```{bash}
+wget https://s3-us-west-2.amazonaws.com/human-pangenomics/pangenomes/freeze/freeze1/minigraph-cactus/hprc-v1.1-mc-grch38/hprc-v1.1-mc-grch38.chroms/chr5.vg
+```
 

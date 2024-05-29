@@ -18,6 +18,14 @@ and current assemblies:
 https://github.com/human-pangenomics/HPP_Year1_Assemblies
 
 
+Tutorials: 
+
+https://github.com/human-pangenomics/hprc-tutorials
+
+HUGO meeting tutorial: 
+
+https://github.com/human-pangenomics/hprc-tutorials/tree/main/pangenome/240408_HumanGenomeMeeting_HUGO
+
 ## Examples:
 
 - [Deletions in the IRGM region](irgm-deletions.md)
