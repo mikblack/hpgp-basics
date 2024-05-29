@@ -53,7 +53,7 @@ T	165999582
 
 Let's pull out a sub-region (easier to work with too).
 
-Create a `.bed` file for the IRGM region (e.g., `nano irgm-region.bed`):
+Create a `.bed` file for the IRGM region (e.g., `nano irgm-region-chr5.bed`):
 
 ```{bash}
 GRCh38#chr5	150796521	150950736	IRGM_REGION
@@ -224,3 +224,43 @@ Download `vg` formatted graph for chromosome 5:
 wget https://s3-us-west-2.amazonaws.com/human-pangenomics/pangenomes/freeze/freeze1/minigraph-cactus/hprc-v1.1-mc-grch38/hprc-v1.1-mc-grch38.chroms/chr5.vg
 ```
 
+Index graph
+
+```{bash}
+./vg index -t 24 -x chr5.xg chr5.vg
+```
+
+Extract IRGM region ()
+
+```
+./vg find -x chr5.xg -p GRCh38#chr5:150796521-150950736 -E > irgm-region-chr5.vg
+```
+
+Count paths (same as for `og` format):
+
+```{bash}
+vg paths -x irgm-region-chr5.vg -L  | wc -l
+```
+
+```
+90
+```
+
+Paths are unsorted (FYI):
+
+```{bash}
+vg paths -x irgm-region-chr5.vg -L  | sort | head
+```
+
+```
+CHM13#chr5[50941507-182040985]
+GRCh38#chr5
+HG00438#1#JAHBCB010000016.1#0[13-95575657]
+HG00438#2#JAHBCA010000008.1#0[3994-101973622]
+HG00621#1#JAHBCD010000064.1#0[4914-59447805]
+HG00621#2#JAHBCC010000022.1#0[983-104847779]
+HG00673#1#JAHBBZ010000005.1#0[2914-76517265]
+HG00673#2#JAHBBY010000004.1#0[2914-82914220]
+HG00733#1#JAHEPQ010000001.1#0[0-110286294]
+HG00733#2#JAHEPP010000064.1#0[2633-31442361]
+```
