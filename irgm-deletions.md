@@ -264,3 +264,92 @@ HG00673#2#JAHBBY010000004.1#0[2914-82914220]
 HG00733#1#JAHEPQ010000001.1#0[0-110286294]
 HG00733#2#JAHEPP010000064.1#0[2633-31442361]
 ```
+
+### Preparing for SequenceTubeMap
+
+Need to get vcf file:
+
+```{bash}
+wget https://s3-us-west-2.amazonaws.com/human-pangenomics/pangenomes/freeze/freeze1/minigraph-cactus/hprc-v1.1-mc-grch38/hprc-v1.1-mc-grch38.vcfbub.a100k.wave.vcf.gz
+wget https://s3-us-west-2.amazonaws.com/human-pangenomics/pangenomes/freeze/freeze1/minigraph-cactus/hprc-v1.1-mc-grch38/hprc-v1.1-mc-grch38.vcfbub.a100k.wave.vcf.gz.tbi
+```
+
+Extract IRGM region on chromosome 5:
+
+```{bash}
+tabix hprc-v1.1-mc-grch38.vcfbub.a100k.wave.vcf.gz chr5:150796521-150950736 > irgm-region-chr5.vcf
+```
+
+Compress and index:
+
+```{bash}
+bgzip -c irgm-region-chr5.vcf > irgm-region-chr5.vcf.gz
+tabix irgm-region-chr5.vcf.gz
+```
+
+### Install sequenceTubeMap
+
+```{bash}
+git clone https://github.com/vgteam/sequenceTubeMap.git
+```
+
+Also need `yarn` and `npm`. See: https://github.com/vgteam/sequenceTubeMap
+
+Build via:
+
+```{bash}
+yarn build
+```
+
+Start server:
+
+```{bash}
+yarn serve
+```
+
+Browse at: http://localhost:3000
+
+### Add data to sequence
+
+Deatils at: https://github.com/vgteam/sequenceTubeMap
+
+Files needed:
+
+```
+irgm-region-chr5.vcf.gz
+irgm-region-chr5.vcf.gz.tbi
+irgm-region-chr5.vg
+```
+
+Use the `prepare_vg.sh` script (in `scripts` directory) to generate the data needed. For example:
+
+```{bash}
+./prepare_vg.sh ../mik-data/irgm-region-chr5.vg
+```
+
+Edit `src/config.json`:
+
+```{json}
+  "DATA_SOURCES": [
+    {
+      "name": "IRGM",
+      "tracks": [
+        {"trackFile": "mik-data/irgm-region-chr5.vg.xg", "trackType": "graph"},
+        {"trackFile": "mik-data/irgm-region-chr5.vg.gbwt", "trackType": "haplotype"}
+      ],
+      "dataType": "built-in",
+      "region": "GRCh38#chr5:1-150000"
+    },
+
+```
+
+and
+
+```{json}
+  "vgPath": "",
+  "dataPath": "mik-data/",
+```
+
+MIGHT need to run `yarn build` again after this, this `yarn serve`.
+
+
