@@ -356,3 +356,5 @@ It works!
 
 <img src="Images/irgm_sequenceTubeMap1.png" height="500">
 
+<img src="Images/irgm_sequenceTubeMap2.png" height="500">
+
