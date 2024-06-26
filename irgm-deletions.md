@@ -311,7 +311,7 @@ Browse at: http://localhost:3000
 
 ### View data via sequenceTubeMap
 
-Deatils at: https://github.com/vgteam/sequenceTubeMap
+Details at: https://github.com/vgteam/sequenceTubeMap
 
 Files needed:
 
