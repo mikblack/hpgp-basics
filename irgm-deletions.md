@@ -350,6 +350,7 @@ and
   "dataPath": "mik-data/",
 ```
 
-MIGHT need to run `yarn build` again after this, this `yarn serve`.
+MIGHT need to run `yarn build` again after this, then `yarn serve`.
 
+<img src="Images/irgm_sequenceTubeMap.png" height="400">
 
