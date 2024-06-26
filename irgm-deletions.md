@@ -209,7 +209,7 @@ HG00438#2#JAHBCA010000050.1#0	32170210     643272
 HG00438#2#JAHBCA010000084.1#0	12116057     109397
 ```
 
-## VG
+## VG (and sequenceTubeMap visualisation)
 
 vg: variation graph
 
@@ -309,7 +309,7 @@ yarn serve
 
 Browse at: http://localhost:3000
 
-### Add data to sequence
+### View data via sequenceTubeMap
 
 Deatils at: https://github.com/vgteam/sequenceTubeMap
 
