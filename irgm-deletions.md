@@ -106,7 +106,7 @@ odgi draw -i irgm-region-chr5-sorted-optimised.og -p irgm_region-2d.png -c irgm-
 
 
 
-Haplotypes - note, the output is WIDE (lists all nodes: 3671 for teh IRGM region), so output is truncated to first 10 rows and columns:
+Haplotypes - note, the output is WIDE (lists all nodes: 3671 for the IRGM region), so output is truncated to first 10 rows and columns:
 
 ```{bash}
 odgi paths -i irgm-region-chr5.og -H | cut -d$'\t' -f1-10 | head
