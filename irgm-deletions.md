@@ -352,5 +352,5 @@ and
 
 MIGHT need to run `yarn build` again after this, then `yarn serve`.
 
-<img src="Images/irgm_sequenceTubeMap.png" height="400">
+<img src="Images/irgm_sequenceTubeMap1.png" height="200">
 
