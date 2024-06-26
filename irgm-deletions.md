@@ -352,5 +352,7 @@ and
 
 MIGHT need to run `yarn build` again after this, then `yarn serve`.
 
-<img src="Images/irgm_sequenceTubeMap1.png" height="200">
+It works!
+
+<img src="Images/irgm_sequenceTubeMap1.png" height="400">
 
