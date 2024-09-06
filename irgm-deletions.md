@@ -518,6 +518,8 @@ read.delim('irgm-ggplot-elements-flip.tsv') %>%
 
 <img src="Images/irgm-ggplot-elements-v2x.png" height="300">
 
+**NB - isn't dealing with elements overlapping. For example, ZNF300 and IRGM overlap at the 3' end of IRGM.
+This can be clearly seen on the ODGI visualisation above.**
 
 ## VG (and sequenceTubeMap visualisation)
 
