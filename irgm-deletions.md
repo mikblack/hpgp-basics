@@ -452,7 +452,32 @@ y
 7                                                IRGM IRGM     0  54215      1
 ```
 
+### Add more genetic elements (genes, enhancers etc)
 
+```{bash}
+more irgm-chr5-elements.bed
+```
+
+```
+GRCh38#chr5	150800770	150802030      GH05J150800
+GRCh38#chr5	150811278	150811306      piR-56037-016
+GRCh38#chr5	150846202	150847808      GH05J150846
+GRCh38#chr5	150846521	150900736      IRGM
+GRCh38#chr5	150894392	150904983      ZNF300
+```
+
+```{bash}
+# adjust coordinates
+odgi procbed -i irgm-region-chr5-sorted-optimised-v2.og -b irgm-chr5-elements.bed > irgm-chr5-elements-adj.bed
+
+# inject gene paths
+odgi inject -i irgm-region-chr5-sorted-optimised-v2.og -b irgm-chr5-elements-adj.bed -o irgm-region-chr5-sorted-optimised-INJECT-ELEMENTS.og
+
+# visualise
+odgi viz -i irgm-region-chr5-sorted-optimised-INJECT-ELEMENTS.og -o irgm_region-ELEMENTS.png
+```
+
+<img src="Images/irgm_region-ELEMENTS.png" height="300">
 
 
 ## VG (and sequenceTubeMap visualisation)
