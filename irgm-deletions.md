@@ -501,7 +501,7 @@ read.delim('irgm-ggplot-elements.tsv') %>%
   ggplot(., aes(xmin=start, xmax=end, y=molecule, fill=gene, forward=strand)) + geom_gene_arrow()
 ```
 
-<img src="Images/irgm-ggplot-elements-v1.png" height="300">
+<img src="Images/irgm-ggplot-elements-v1x.png" height="300">
 
 ```{bash}
 odgi flip -i irgm-region-chr5-sorted-optimised-INJECT-ELEMENTS.og -o - -t 4 \
@@ -516,7 +516,7 @@ read.delim('irgm-ggplot-elements-flip.tsv') %>%
   ggplot(., aes(xmin=start, xmax=end, y=molecule, fill=gene, forward=strand)) + geom_gene_arrow()
 ```
 
-<img src="Images/irgm-ggplot-elements-v2.png" height="300">
+<img src="Images/irgm-ggplot-elements-v2x.png" height="300">
 
 
 ## VG (and sequenceTubeMap visualisation)
