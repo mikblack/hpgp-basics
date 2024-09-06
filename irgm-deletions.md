@@ -120,28 +120,28 @@ From `odgi sort`:
 odgi sort -L -i irgm-region-chr5.og -o - -O | odgi viz -i - -o irgm_region-L-sort.png -s '#'
 ```
 
-<img src="Images/irgm_region-L-sort.png" height="200">
+<img src="Images/irgm_region-L-sort.png" height="300">
 
 ```{bash}
 # M: paths-max
 odgi sort -M -i irgm-region-chr5.og -o - -O | odgi viz -i - -o irgm_region-M-sort.png -s '#'
 ```
 
-<img src="Images/irgm_region-M-sort.png" height="200">
+<img src="Images/irgm_region-M-sort.png" height="300">
 
 ```{bash}
 # A: paths-avg
 odgi sort -A -i irgm-region-chr5.og -o - -O | odgi viz -i - -o irgm_region-A-sort.png -s '#'
 ```
 
-<img src="Images/irgm_region-A-sort.png" height="200">
+<img src="Images/irgm_region-A-sort.png" height="300">
 
 ```{bash}
 # R: paths-avg-rev
 odgi sort -R -i irgm-region-chr5.og -o - -O | odgi viz -i - -o irgm_region-R-sort.png -s '#'
 ```
 
-<img src="Images/irgm_region-R-sort.png" height="200">
+<img src="Images/irgm_region-R-sort.png" height="300">
 
 
 ### Haplotypes 
