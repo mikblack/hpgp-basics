@@ -104,9 +104,49 @@ odgi draw -i irgm-region-chr5-sorted-optimised.og -p irgm_region-2d.png -c irgm-
 
 <img src="Images/irgm_region-2d.png" height="150">
 
+### Alternative sorts
+
+From `odgi sort`:
+
+```
+-L, --paths-min        Sort paths by their lowest contained node identifier.
+-M, --paths-max        Sort paths by their highest contained node identifier.
+-A, --paths-avg        Sort paths by their average contained node identifier.
+-R, --paths-avg-rev    Sort paths in reverse by their average contained node identifier.
+```
+
+```{bash}
+# L: paths-min
+odgi sort -L -i irgm-region-chr5.og -o - -O | odgi viz -i - -o irgm_region-L-sort.png -s '#'
+```
+
+<img src="Images/irgm_region-L-sort.png" height="200">
+
+```{bash}
+# M: paths-max
+odgi sort -M -i irgm-region-chr5.og -o - -O | odgi viz -i - -o irgm_region-M-sort.png -s '#'
+```
+
+<img src="Images/irgm_region-M-sort.png" height="200">
+
+```{bash}
+# A: paths-avg
+odgi sort -A -i irgm-region-chr5.og -o - -O | odgi viz -i - -o irgm_region-A-sort.png -s '#'
+```
+
+<img src="Images/irgm_region-A-sort.png" height="200">
+
+```{bash}
+# R: paths-avg-rev
+odgi sort -R -i irgm-region-chr5.og -o - -O | odgi viz -i - -o irgm_region-R-sort.png -s '#'
+```
+
+<img src="Images/irgm_region-R-sort.png" height="200">
 
 
-Haplotypes - note, the output is WIDE (lists all nodes: 3671 for the IRGM region), so output is truncated to first 10 rows and columns:
+### Haplotypes 
+
+Note, the output is WIDE (lists all nodes: 3671 for the IRGM region), so output is truncated to first 10 rows and columns:
 
 ```{bash}
 odgi paths -i irgm-region-chr5.og -H | cut -d$'\t' -f1-10 | head
