@@ -395,14 +395,63 @@ ggplot(x, aes(xmin=start, xmax=end, y=molecule, fill=gene, forward=strand)) + ge
 
 <img src="Images/irgm-ggplot-v1.png" height="200">
 
+Note:
 
+- IRGM path starts at zero, because there is no other information in the path (except for the gene).
+- Next two paths start earlier than the others because they contain the short less frequent
+  deletion nearer to the start of the region (so have less DNA sequence before the IRGM gene starts.
+- Final four paths are from (larger) deletion samples, but one has orientation wrong - fix this
+  with the code below.
 
+```{bash}
+odgi flip -i irgm-region-chr5-sorted-optimised-INJECT-GENE.og -o - -t 4 \
+    | odgi untangle -R gene-names.txt -i - -j 0.5 -t 4 -g \
+    | grep '^mol\|GRCh38\|CHM13\|^IRGM\|HG01243#2\|HG01071#1\|HG00741#2\|HG00741#1' > irgm-ggplot-genes-path-subset-flip.tsv
+```
 
+In R:
 
+```{r}
+library(ggplot2)
+library(gggenes)
+y = read.delim('irgm-ggplot-genes-path-subset-flip.tsv')
+ggplot(y, aes(xmin=start, xmax=end, y=molecule, fill=gene, forward=strand)) + geom_gene_arrow()
+```
 
-odgi flip -i chr6.C4.genes.og -o - -t 4 \
-    | odgi untangle -R chr6.C4.gene.names.txt -i - -j 0.5 -t 4 -g \
-    | grep '^mol\|GRCH38\|CHM13\|IRGM\|HG01071#1\|HG00741#2\|HG00741#1\|' > chr6.C4.gene.gggenes.tsv
+<img src="Images/irgm-ggplot-v2.png" height="200">
+
+NB - can check in R that the "flipping" has just altered the strand information:
+
+```{r}
+x
+```
+
+```
+                                           molecule gene start    end strand
+1                   GRCh38#chr5:150796142-150951030 IRGM 50379 104415      1
+2   HG00741#1#JAHALY010000017.1#0:23804192-23959081 IRGM 50295 104503      0
+3                    CHM13#chr5:151332657-151487494 IRGM 50362 104398      1
+4 HG00741#2#JAHALX010000012.1#0:117550454-117705290 IRGM 50360 104396      1
+5   HG01243#2#JAHEOX010000047.1#0:52576012-52710838 IRGM 30321  84355      1
+6 HG01071#1#JAHBCF010000029.1#0:117890067-118024850 IRGM 30290  84330      1
+7                                              IRGM IRGM     0  54215      1
+```
+
+```{r}
+y
+```
+
+```
+                                             molecule gene start    end strand
+1                     GRCh38#chr5:150796142-150951030 IRGM 50379 104415      1
+2 HG00741#1#JAHALY010000017.1#0:23804192-23959081_inv IRGM 50376 104415      1
+3                      CHM13#chr5:151332657-151487494 IRGM 50362 104398      1
+4   HG00741#2#JAHALX010000012.1#0:117550454-117705290 IRGM 50360 104396      1
+5     HG01243#2#JAHEOX010000047.1#0:52576012-52710838 IRGM 30321  84355      1
+6   HG01071#1#JAHBCF010000029.1#0:117890067-118024850 IRGM 30290  84330      1
+7                                                IRGM IRGM     0  54215      1
+```
+
 
 
 
