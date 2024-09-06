@@ -209,6 +209,72 @@ HG00438#2#JAHBCA010000050.1#0	32170210     643272
 HG00438#2#JAHBCA010000084.1#0	12116057     109397
 ```
 
+### Gene arrows
+
+Create a `.bed` file for the IRGM gene (e.g., `nano irgm-chr5.bed`):
+
+```{bash}
+GRCh38#chr5	150846521	150900736      IRGM
+```
+
+Following code at:
+
+https://odgi.readthedocs.io/en/latest/rst/tutorials/injecting_gene_arrows.html
+
+```{bash}
+odgi paths -i irgm-region-chr5-sorted-optimised.og -L  | grep GRC
+```
+
+```
+GRCh38#chr5:150796142-150951030
+```
+
+```{bash}
+more irgm-region-chr5.bed
+```
+
+```
+GRCh38#chr5	150796521	150950736	IRGM_REGION
+```
+
+This doesn't line up with the region in the graph *(I don't really understand this).*
+
+```{bash}
+odgi procbed -i irgm-region-chr5-sorted-optimised.og -b irgm-chr5.bed > irgm-chr5-adj.bed
+```
+
+Now we have (coordinates relate to start of subgraph):
+
+```{bash}
+more irgm-chr5-adj.bed
+```
+
+```
+GRCh38#chr5:150796142-150951030	50379	104594	IRGM
+```
+
+```{bash}
+odgi inject -i irgm-region-chr5-sorted-optimised.og -b irgm-chr5-adj.bed -o - | odgi paths -i - -L | tail -3 > irgm-chr5-gene-names.txt
+more irgm-chr5-gene-names.txt
+```
+
+Final line shows gene added as path: 
+
+```
+NA21309#1#JAHEPC010000031.1#0:30146479-30281260
+NA21309#2#JAHEPB010000096.1#0:30170591-30325408
+IRGM
+```
+
+```{bash}
+odgi inject -i irgm-region-chr5-sorted-optimised.og -b irgm-chr5-adj.bed -o irgm-region-chr5-sorted-optimised-INJECT-GENE.og
+```
+
+```{bash}
+# odgi paths -i irgm-region-chr5-sorted-optimised-INJECT-GENE.og -L | grep 'chr6\|HG00438\|HG0107\|HG01952\|C4' > chr6.C4.selected_paths.txt
+odgi viz -i irgm-region-chr5-sorted-optimised-INJECT-GENE.og -o irgm-region-GENE.png -c 12 -w 100 -y 50 -m -B Spectral:4
+```
+
 ## VG (and sequenceTubeMap visualisation)
 
 vg: variation graph
