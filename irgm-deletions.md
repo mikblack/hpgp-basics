@@ -320,6 +320,8 @@ odgi inject -i irgm-region-chr5-sorted-optimised-v2.og -b irgm-chr5-adj.bed -o i
 odgi viz -i irgm-region-chr5-sorted-optimised-INJECT-GENE.og -o irgm_region-GENE.png
 ```
 
+IRGM is the path at the very bottom.
+
 <img src="Images/irgm_region-GENE.png" height="400">
 
 
