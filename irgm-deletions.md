@@ -324,6 +324,87 @@ IRGM is the path at the very bottom.
 
 <img src="Images/irgm_region-GENE.png" height="400">
 
+Generate a subset of paths 
+
+```{bash}
+# GRCh38 path
+odgi paths -i irgm-region-chr5-sorted-optimised-INJECT-GENE.og -L | grep GRCh38 > irgm-region-GENE-path-subset.txt
+
+# CHM13 path
+odgi paths -i irgm-region-chr5-sorted-optimised-INJECT-GENE.og -L | grep CHM13 >> irgm-region-GENE-path-subset.txt
+
+# Final 9 deletion samples, and IRGM (i.e., last 10 paths)
+odgi paths -i irgm-region-chr5-sorted-optimised-INJECT-GENE.og -L | tail -10   >> irgm-region-GENE-path-subset.txt
+
+# Check file:
+more irgm-region-GENE-path-subset.txt
+```
+
+```
+GRCh38#chr5:150796142-150951030
+CHM13#chr5:151332657-151487494
+HG01106#1#JAHAMC010000012.1#0:30116983-30247833
+HG02055#1#JAHEPK010000070.1#0:30224754-30355606
+HG00438#2#JAHBCA010000008.1#0:30185874-30316718
+HG03579#1#JAGYVU010000079.1#0:52570852-52701684
+HG02145#1#JAHKSG010000057.1#0:30202344-30333010
+HG02630#1#JAHAOQ010000048.1#0:1976065-2106730
+HG02080#1#JAHEOW010000067.1#0:17823013-17953847
+HG01361#2#JAGYYW010000027.1#0:17815618-17946440
+HG03492#2#JAHEPH010000076.1#0:23808489-23939313
+IRGM
+```
+
+Also need a file containing teh gene names (in this case there iss only one, IRGM):
+
+```
+echo IRGM > gene-names.txt
+```
+
+```{bash}
+odgi untangle -R gene-names.txt -i irgm-region-chr5-sorted-optimised-INJECT-GENE.og -j 0.5 -t 4 -g > irgm-ggplot-genes.tsv
+head -10 irgm-ggplot-genes.tsv
+```
+
+Just select a subset:
+
+```{bash}
+cat irgm-ggplot-genes.tsv | grep '^mol\|GRCh38\|CHM13\|^IRGM\|HG01243#2\|HG01071#1\|HG00741#2\|HG00741#1' > irgm-ggplot-genes-path-subset.tsv
+more irgm-ggplot-genes-path-subset.tsv
+```
+
+```
+molecule	gene	start	end	strand
+GRCh38#chr5:150796142-150951030	IRGM	50379	104415	1
+HG00741#1#JAHALY010000017.1#0:23804192-23959081	IRGM	50295	104503	0
+CHM13#chr5:151332657-151487494	IRGM	50362	104398	1
+HG00741#2#JAHALX010000012.1#0:117550454-117705290	IRGM	50360	104396	1
+HG01243#2#JAHEOX010000047.1#0:52576012-52710838	IRGM	30321	84355	1
+HG01071#1#JAHBCF010000029.1#0:117890067-118024850	IRGM	30290	84330	1
+IRGM	IRGM	0	54215	1
+```
+
+In R:
+
+```{r}
+library(ggplot2)
+library(gggenes)
+x = read.delim('irgm-ggplot-genes-path-subset.tsv')
+ggplot(x, aes(xmin=start, xmax=end, y=molecule, fill=gene, forward=strand)) + geom_gene_arrow()
+```
+
+<img src="Images/irgm-ggplot-v1.png" height="200">
+
+
+
+
+
+
+odgi flip -i chr6.C4.genes.og -o - -t 4 \
+    | odgi untangle -R chr6.C4.gene.names.txt -i - -j 0.5 -t 4 -g \
+    | grep '^mol\|GRCH38\|CHM13\|IRGM\|HG01071#1\|HG00741#2\|HG00741#1\|' > chr6.C4.gene.gggenes.tsv
+
+
 
 ## VG (and sequenceTubeMap visualisation)
 
