@@ -418,7 +418,7 @@ y = read.delim('irgm-ggplot-genes-path-subset-flip.tsv')
 ggplot(y, aes(xmin=start, xmax=end, y=molecule, fill=gene, forward=strand)) + geom_gene_arrow()
 ```
 
-<img src="Images/irgm-ggplot-v2.png" height="200">
+<img src="Images/irgm-ggplot-v2x.png" height="200">
 
 NB - can check in R that the "flipping" has just altered the strand information:
 
