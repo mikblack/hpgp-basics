@@ -454,9 +454,13 @@ y
 
 ### Add more genetic elements (genes, enhancers etc)
 
+Create `irgm-chr5-elements.bed`:
+
 ```{bash}
-more irgm-chr5-elements.bed
+nano irgm-chr5-elements.bed
 ```
+
+and add:
 
 ```
 GRCh38#chr5	150800770	150802030      GH05J150800
@@ -464,6 +468,12 @@ GRCh38#chr5	150811278	150811306      piR-56037-016
 GRCh38#chr5	150846202	150847808      GH05J150846
 GRCh38#chr5	150846521	150900736      IRGM
 GRCh38#chr5	150894392	150904983      ZNF300
+```
+
+Extract elements names and save:
+
+```{bash}
+cut -d$'\t' -f4 irgm-chr5-elements.bed > element-names.txt
 ```
 
 ```{bash}
@@ -478,6 +488,35 @@ odgi viz -i irgm-region-chr5-sorted-optimised-INJECT-ELEMENTS.og -o irgm_region-
 ```
 
 <img src="Images/irgm_region-ELEMENTS.png" height="300">
+
+```{bash}
+odgi untangle -R element-names.txt -i irgm-region-chr5-sorted-optimised-INJECT-ELEMENTS.og -j 0.5 -t 4 -g \
+   | grep '^mol\|GRCh38\|CHM13\|^IRGM\|^GH05\|^piR\|^ZNF300\|HG01243#2\|HG01071#1\|HG00741#2\|HG00741#1' > irgm-ggplot-elements.tsv
+```
+
+In R:
+
+```{r}
+read.delim('irgm-ggplot-elements.tsv') %>%
+  ggplot(., aes(xmin=start, xmax=end, y=molecule, fill=gene, forward=strand)) + geom_gene_arrow()
+```
+
+<img src="Images/irgm-ggplot-elements-v1.png" height="300">
+
+```{bash}
+odgi flip -i irgm-region-chr5-sorted-optimised-INJECT-ELEMENTS.og -o - -t 4 \
+    | odgi untangle -R element-names.txt -i - -j 0.5 -t 4 -g \
+    | grep '^mol\|GRCh38\|CHM13\|^IRGM\|^GH05\|^piR\|^ZNF300\|HG01243#2\|HG01071#1\|HG00741#2\|HG00741#1' > irgm-ggplot-elements-flip.tsv
+```
+
+In R:
+
+```{r}
+read.delim('irgm-ggplot-elements-flip.tsv') %>% 
+  ggplot(., aes(xmin=start, xmax=end, y=molecule, fill=gene, forward=strand)) + geom_gene_arrow()
+```
+
+<img src="Images/irgm-ggplot-elements-v2.png" height="300">
 
 
 ## VG (and sequenceTubeMap visualisation)
