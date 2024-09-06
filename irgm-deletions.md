@@ -317,7 +317,7 @@ odgi inject -i irgm-region-chr5-sorted-optimised-v2.og -b irgm-chr5-adj.bed -o i
 ```
 
 ```{bash}
-odgi viz -i irgm-region-chr5-sorted-optimised-INJECT-GENE.og -o irgm-region-GENE.png
+odgi viz -i irgm-region-chr5-sorted-optimised-INJECT-GENE.og -o irgm_region-GENE.png
 ```
 
 <img src="Images/irgm_region-GENE.png" height="400">
