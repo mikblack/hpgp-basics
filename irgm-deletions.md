@@ -718,3 +718,63 @@ odgi viz -i irgm-region-chr5-pruned.og -o irgm-region-chr5-pruned.png
 
 <img src="Images/irgm-region-chr5-pruned.png" height="50">
 
+### Calculate depth
+
+```{bash}
+odgi depth -i irgm-region-chr5-pruned.og -r CHM13#chr5:151332657-151487494 | \
+    bedtools makewindows -b /dev/stdin -w 1000 > chm13-irgm-region-1kbps.bed
+
+head chm13-irgm-region-1kbps.bed
+```
+
+```
+CHM13#chr5:151332657-151487494	0	1000
+CHM13#chr5:151332657-151487494	1000	2000
+CHM13#chr5:151332657-151487494	2000	3000
+CHM13#chr5:151332657-151487494	3000	4000
+CHM13#chr5:151332657-151487494	4000	5000
+CHM13#chr5:151332657-151487494	5000	6000
+CHM13#chr5:151332657-151487494	6000	7000
+CHM13#chr5:151332657-151487494	7000	8000
+CHM13#chr5:151332657-151487494	8000	9000
+CHM13#chr5:151332657-151487494	9000	10000
+```
+
+```{bash}
+wc -l chm13-irgm-region-1kbps.bed
+```
+
+```
+155 chm13-irgm-region-1kbps.bed
+```
+
+```{bash}
+odgi depth -i irgm-region-chr5-pruned.og -b chm13-irgm-region-1kbps.bed | \
+    bedtools sort > chm13-h38-irgm-region-depth-1kbps.bed
+```
+
+odgi paths -i irgm-region-chr5-sorted-optimised.og -L |  grep -e GRCh38 -e CHM13 > reference-paths.txt
+
+odgi depth -i irgm-region-chr5-pruned.og -s reference-paths.txt -b chm13-irgm-region-1kbps.bed | \
+    bedtools sort > chm13-h38-irgm-region-depth-1kbps.bed
+```
+
+### THIS IS THE RIGHT WAY...
+
+```{bash}
+odgi depth -i irgm-region-chr5-pruned.og -s reference-paths.txt -d | head
+```
+
+```
+#node.id	depth	depth.uniq
+      1     2	2
+      2     2	2
+      3    	0	0
+      4	2	2
+      5	2	2
+      6	0	0
+      7	2	2
+      8	2	2
+      9	0	0
+```
+
