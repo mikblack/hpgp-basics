@@ -670,3 +670,51 @@ It works!
 
 <img src="Images/irgm_sequenceTubeMap2-crop.png" height="500">
 
+
+## Finding novel regions
+
+**Challenge**: given a genomic region, how can you find areas of the pangenome are not part of either the CHM13-T2T or GRCh38 reference genomes?
+
+#### Prune the graph 
+
+Remove all paths *except* CHM13-T2T and GRCh38. `odgi prune` can be used for this.
+
+First, extract the path names from the graph:
+
+```{bash}
+odgi paths -i irgm-region-chr5-sorted-optimised.og -L | head
+```
+
+```
+GRCh38#chr5:150796142-150951030
+CHM13#chr5:151332657-151487494
+HG00438#1#JAHBCB010000016.1#0:23808666-23943440
+HG00438#2#JAHBCA010000008.1#0:30185874-30316718
+HG00621#1#JAHBCD010000064.1#0:30181039-30335880
+HG00621#2#JAHBCC010000022.1#0:23800667-23955508
+HG00673#1#JAHBBZ010000005.1#0:52568376-52723213
+HG00673#2#JAHBBY010000004.1#0:52585809-52740645
+HG00733#1#JAHEPQ010000001.1#0:30540387-30695222
+HG00733#2#JAHEPP010000064.1#0:30144483-30299318
+```
+
+Use grep to get rid of CHM13-T2t, and redirect the output to a file:
+
+```{bash}
+odgi paths -i irgm-region-chr5-sorted-optimised.og -L |  grep -v -e GRCh38 -e CHM13 > haplotype-paths.txt
+```
+
+Prune the graph:
+
+```{bash}
+odgi prune -r haplotype-paths.txt -i irgm-region-chr5-sorted-optimised.og -o irgm-region-chr5-pruned.og
+```
+
+Visualise the pruned graph:
+
+```{bash}
+odgi viz -i irgm-region-chr5-pruned.og -o irgm-region-chr5-pruned.png
+```
+
+<img src="Images/irgm-region-chr5-pruned.png" height="50">
+
