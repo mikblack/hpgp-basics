@@ -287,3 +287,103 @@ NA18906#2#JAHEON010000113.1#0:5829706-5830743
 NA20129#2#JAHEPD010000252.1#0:945117-946154
 ```
 
+Extract sample IDs to file:
+
+```{bash}
+odgi paths -i node77874.og -L | cut -d"#" -f1 > node77874-samples.txt
+```
+
+In R:
+
+```{r}
+# Load dplyr package
+library(dplyr)
+
+# Read in the node sample data
+x = readLines('node77874-samples.txt')
+
+length(x)
+```
+
+```
+22
+```
+
+```{r}
+length(unique(x))
+```
+
+```
+19
+```
+
+Must be some homozygotes.
+
+```{r}
+table(x) %>% sort()
+```
+
+```
+HG00621 HG00735 HG01106 HG01175 HG01358 HG01891 HG02055 HG02145 HG02148 HG02257 
+      1       1       1       1       1       1       1       1       1       1 
+HG02486 HG02622 HG02886 HG03492 NA18906 NA20129 HG02717 HG02723 HG03540 
+      1       1       1       1       1       1       2       2       2
+```
+
+```{r}
+# Load kgp package, which contains sample metadata from 1000 Genomes Project
+library(kgp)
+data(kgp)
+
+# Use kgpe object (pedigree and population information all 3,202 samples
+# included in the expanded 1000 Genomes Project data, which includes 602 trios).
+
+options(width=120)
+data.frame(kgpe[match(x, kgpe$id),] )
+```
+
+```
+     fid      id     pid     mid sex   sexf  pop  reg                              population     region phase3
+1  SH066 HG00621 HG00619 HG00620   1   male  CHS  EAS             Southern Han Chinese, China  East Asia  FALSE
+2   PR06 HG00735 HG01047 HG00734   2 female  PUR  AMR             Puerto Rican in Puerto Rico    America  FALSE
+3   PR25 HG01106 HG01104 HG01105   1   male  PUR  AMR             Puerto Rican in Puerto Rico    America  FALSE
+4   PR36 HG01175 HG01173 HG01174   2 female  PUR  AMR             Puerto Rican in Puerto Rico    America  FALSE
+5  CLM31 HG01358 HG01356 HG01357   1   male  CLM  AMR         Colombian in Medellin, Colombia    America  FALSE
+6   BB05 HG01891 HG01890 HG01889   2 female  ACB  AFR           African Caribbean in Barbados     Africa  FALSE
+7   BB15 HG02055 HG02053 HG02054   1   male  ACB  AFR           African Caribbean in Barbados     Africa  FALSE
+8   BB20 HG02145 HG02143 HG02144   1   male  ACB  AFR           African Caribbean in Barbados     Africa  FALSE
+9  PEL39 HG02148 HG02146 HG02147   2 female  PEL  AMR                  Peruvian in Lima, Peru    America  FALSE
+10  BB21 HG02257 HG02255 HG02256   2 female  ACB  AFR           African Caribbean in Barbados     Africa  FALSE
+11  <NA>    <NA>    <NA>    <NA>  NA   <NA> <NA> <NA>                                    <NA>       <NA>     NA
+12  GB31 HG02622 HG02620 HG02621   2 female  GWD  AFR Gambian in Western Division, The Gambia     Africa  FALSE
+13  GB50 HG02717 HG02715 HG02716   1   male  GWD  AFR Gambian in Western Division, The Gambia     Africa  FALSE
+14  GB50 HG02717 HG02715 HG02716   1   male  GWD  AFR Gambian in Western Division, The Gambia     Africa  FALSE
+15  GB52 HG02723 HG02721 HG02722   2 female  GWD  AFR Gambian in Western Division, The Gambia     Africa  FALSE
+16  GB52 HG02723 HG02721 HG02722   2 female  GWD  AFR Gambian in Western Division, The Gambia     Africa  FALSE
+17  GB89 HG02886 HG02884 HG02885   2 female  GWD  AFR Gambian in Western Division, The Gambia     Africa  FALSE
+18  PK43 HG03492 HG03490 HG03491   1   male  PJL  SAS             Punjabi in Lahore, Pakistan South Asia  FALSE
+19 GB125 HG03540 HG03538 HG03539   2 female  GWD  AFR Gambian in Western Division, The Gambia     Africa  FALSE
+20 GB125 HG03540 HG03538 HG03539   2 female  GWD  AFR Gambian in Western Division, The Gambia     Africa  FALSE
+21  Y020 NA18906 NA18877 NA18876   2 female  YRI  AFR               Yoruba in Ibadan, Nigeria     Africa  FALSE
+22  2433 NA20129 NA19920 NA19921   2 female  ASW  AFR        African Ancestry in Southwest US     Africa  FALSE
+```
+
+```{r}
+# Samples by population
+kgpe$pop[match(x, kgpe$id)] %>% table() %>% sort()
+```
+
+```
+ASW CHS CLM PEL PJL YRI PUR ACB GWD 
+  1   1   1   1   1   1   3   4   8
+```
+
+```{r}
+# Samples by region (i.e., super-population) 
+kgpe$region[match(x, kgpe$id)] %>% table() %>% sort()
+```
+
+```
+ East Asia South Asia    America     Africa 
+         1          1          5         14
+```
