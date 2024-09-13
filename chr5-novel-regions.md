@@ -4,7 +4,7 @@
 
 We can calculate the depth (i.e., number of paths crossing each node) via `odgi depth`.  The `-s` parameter can be used to restrict he depth calculations to a subset of paths.  So if we restrict to just the CMH13-T2T and GRCh38 reference genomes, we can find nodes that have a depth of zero (i.e., neither reference crosses the node).  
 
-Get teh reference genome path names via:
+Get the reference genome path names via:
 
 ```{bash}
 odgi paths -i chr5.full.og -L | head
@@ -23,19 +23,32 @@ HG00438#1#JAHBCB010000105.1#0
 HG00438#1#JAHBCB010000148.1#0
 ```
 
-Save the first two to a text file (or just paste them inro a text file using the outout from above):
+Save the first two to a text file (or just paste them into a text file using the outout from above):
 
 ```{bash}
 odgi paths -i chr5.full.og -L | head -2 > reference-paths-chr5.txt
 ```
 
-When identifying novel nodes, we'd also like to know about the size of the node.  The following code extracts teh size information for each node:
+When identifying novel nodes, we'd also like to know about the size of the node.  The following code extracts the size information for each node:
 
 ```{bash}
 odgi view -i chr5.full.og -g | grep '^S' | awk -v OFS='\t' '{print($2,length($3))}' | head
 ```
 
-The depth and length information can be combined together usign `paste`, and tehn filtered via `awk` (in this case we are calculating the depth (counting just the two reference paths) per node, and the length per node, then selecting nodes (usign `awk`) which have a depth of zero (`$2 < 1`) and a length of greater than 100 ($5 > 100). We then print all five columns of information for nodes matching these criteria to a file (`chr5-novel-nodes.txt`):
+```
+1	2252
+2	7748
+3	140
+4	13
+5	3088
+6	1
+7	1
+8	79414
+9	923397
+10	963697
+```
+
+The depth and length information can be combined together using `paste`, and then filtered via `awk` (in this case we are calculating the depth (counting just the two reference paths) per node, and the length per node, then selecting nodes (using `awk`) which have a depth of zero (`$2 < 1`) and a length of greater than 100 (`$5 > 100`). We then print all five columns of information for nodes matching these criteria to a file (`chr5-novel-nodes.txt`):
 
 ```{bash}
 paste <(odgi depth -i chr5.full.og -s reference-paths-chr5.txt -d | tail -n +2) \
@@ -60,7 +73,7 @@ head chr5-novel-nodes.txt
 17 0 0 17 461
 ```
 
-To further restrict things, we can select out novel nodes that are at least 1000bp long:
+To further restrict things, we can select novel nodes that are at least 1000bp long:
 
 ```{bash}
 cat chr5-novel-nodes.txt | awk '{ if ($5 > 999) print $1, $2, $3, $4, $5 }' > chr5-novel-nodes-1kbp.txt
@@ -154,7 +167,7 @@ head nodes-1kbp.txt
 ^25
 ```
 
-We can then use that file with `grep` to search for those nodes, using word-based matching (i.e., `-w` in `grep`) - otherwise we'd be matching any line that (for example) started with a 5, or an 8, or a 9 etc. We want an extact match - exactly 5 (not 50, or 500 etc).
+We can then use that file with `grep` to search for those nodes, using word-based matching (i.e., `-w` in `grep`) - otherwise we'd be matching any line that started with a 5, or an 8, or a 9 etc. We want an extact match: exactly 5 (not 50, or 500 etc).
 
 ```{bash}
 grep -w -f nodes-1kbp.txt chr5-full-node-depth_ge10_le50.txt > chr5-novel-nodes-ge10-le50-paths.txt
@@ -188,7 +201,9 @@ wc -l chr5-novel-nodes-ge10-le50-paths.txt
 79 chr5-novel-nodes-ge10-le50-paths.txt
 ```
 
-We can now use thesenode IDs to investigate the characteristics of these nodes.
+There are 79 or these.
+
+We can now use these node IDs to investigate the characteristics of these nodes.
 
 Reformat to include length info:
 
