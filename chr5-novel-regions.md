@@ -330,15 +330,17 @@ HG02486 HG02622 HG02886 HG03492 NA18906 NA20129 HG02717 HG02723 HG03540
       1       1       1       1       1       1       2       2       2
 ```
 
+Load kgp package, which contains sample metadata from 1000 Genomes Project:
+
 ```{r}
-# Load kgp package, which contains sample metadata from 1000 Genomes Project
 library(kgp)
+```
+
+Use `kgpe` object (pedigree and population information all 3,202 samples
+included in the expanded 1000 Genomes Project data, which includes 602 trios).
+
+```{r}
 data(kgp)
-
-# Use kgpe object (pedigree and population information all 3,202 samples
-# included in the expanded 1000 Genomes Project data, which includes 602 trios).
-
-options(width=120)
 data.frame(kgpe[match(x, kgpe$id),] )
 ```
 
@@ -368,8 +370,9 @@ data.frame(kgpe[match(x, kgpe$id),] )
 22  2433 NA20129 NA19920 NA19921   2 female  ASW  AFR        African Ancestry in Southwest US     Africa  FALSE
 ```
 
+Samples by population:
+
 ```{r}
-# Samples by population
 kgpe$pop[match(x, kgpe$id)] %>% table() %>% sort()
 ```
 
@@ -378,8 +381,9 @@ ASW CHS CLM PEL PJL YRI PUR ACB GWD
   1   1   1   1   1   1   3   4   8
 ```
 
+Samples by region (i.e., super-population): 
+
 ```{r}
-# Samples by region (i.e., super-population) 
 kgpe$region[match(x, kgpe$id)] %>% table() %>% sort()
 ```
 
