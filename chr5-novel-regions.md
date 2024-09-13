@@ -100,7 +100,7 @@ So, we've got a list of nodes that are (1) not present in either CMH13-T2T or GR
 
 Next we need to find the depth (i.e., number of haplotypes crossign each node) for each of these.
 
-We can caulcate the depth across *all* nodes on chromosoem 5 via:
+We can caulcate the depth across *all* nodes on chromosome 5 via:
 
 ```{bash}
 odgi depth --threads=48 -i chr5.full.og -d > chr5-full-node-depth.txt
