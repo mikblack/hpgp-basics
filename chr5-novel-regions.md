@@ -236,7 +236,6 @@ Columns are:
  - Unique reference depth
  - Node ID
  - Node length
- - 
 
 Which paths go through a specific node?
 
