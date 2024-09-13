@@ -17,6 +17,9 @@ and current assemblies:
 
 https://github.com/human-pangenomics/HPP_Year1_Assemblies
 
+and Deep Variant calls for 1000 Genomes Project mapped to minigraph-cactus version of pangenome:
+
+https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=publications/PANGENOME_2022/DeepVariant-1000GPcalls/
 
 Tutorials: 
 
