@@ -23,7 +23,7 @@ HG00438#1#JAHBCB010000105.1#0
 HG00438#1#JAHBCB010000148.1#0
 ```
 
-Save the first two to a text file (or just paste them into a text file using the outout from above):
+Save the first two to a text file (or just paste them into a text file using the output from above):
 
 ```{bash}
 odgi paths -i chr5.full.og -L | head -2 > reference-paths-chr5.txt
