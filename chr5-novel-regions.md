@@ -287,6 +287,8 @@ NA18906#2#JAHEON010000113.1#0:5829706-5830743
 NA20129#2#JAHEPD010000252.1#0:945117-946154
 ```
 
+Note: the coordinates given above for each path relate to the position of this node (node77874) in the path - the length for each is 1037, which is the length of this node.
+
 Extract sample IDs to file:
 
 ```{bash}
