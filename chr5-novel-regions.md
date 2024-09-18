@@ -1,8 +1,8 @@
 # Novel regions - chromosome 5
 
-**Challenge**: given a genomic region, how can you find areas of the pangenome are not part of either the CHM13-T2T or GRCh38 reference genomes?
+**Challenge**: given a genomic region, how can you find areas of the pangenome are not part of either the T2T-CHM13 or GRCh38 reference genomes?
 
-We can calculate the depth (i.e., number of paths crossing each node) via `odgi depth`.  The `-s` parameter can be used to restrict he depth calculations to a subset of paths.  So if we restrict to just the CMH13-T2T and GRCh38 reference genomes, we can find nodes that have a depth of zero (i.e., neither reference crosses the node).  
+We can calculate the depth (i.e., number of paths crossing each node) via `odgi depth`.  The `-s` parameter can be used to restrict he depth calculations to a subset of paths.  So if we restrict to just the T2T-CHM13 and GRCh38 reference genomes, we can find nodes that have a depth of zero (i.e., neither reference crosses the node).  
 
 Get the reference genome path names via:
 
@@ -96,7 +96,7 @@ head chr5-novel-nodes-1kbp.txt
 25 0 0 25 3715
 ```
 
-So, we've got a list of nodes that are (1) not present in either CMH13-T2T or GRCh38, and (2) at least 1000bp long.
+So, we've got a list of nodes that are (1) not present in either T2T-CHM13 or GRCh38, and (2) at least 1000bp long.
 
 Next we need to find the depth (i.e., number of haplotypes crossign each node) for each of these.
 
@@ -189,7 +189,7 @@ head chr5-novel-nodes-ge10-le50-paths.txt
 ```
 
 These are all of the nodes on chromosome 5 that are:
- - not present in CHM13-T2T or GRCh38
+ - not present in T2T-CHM13 or GRCh38
  - at least 1000bp in length
  - involve between 10 and 50 haplotypes
 
