@@ -33,3 +33,4 @@ https://github.com/human-pangenomics/hprc-tutorials/tree/main/pangenome/240408_H
 
 - [Deletions in the IRGM region](irgm-deletions.md)
 - [Novel regions - chromosome 5](chr5-novel-regions.md)
+- [Locating novel regions in the GRCh38 reference genome](chr5-locating-novel-regions.md)
