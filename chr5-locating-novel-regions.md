@@ -83,7 +83,139 @@ awk '{if($1 > 77874) {print $1; exit}}' chr5-grch38-node-list.txt
 78332
 ```
 
-**So, node 78332 is the first node AFTER node 77874 in the GRCh38 reference*.**
+**So, node 78332 is the first node AFTER node 77874 in the GRCh38 reference.**
+
+
+Extract the node position info (without needing a sorted/optimised graph):
+
+Pre-node:
+
+```
+odgi extract --threads=24 -i chr5.full.og -n 72603 -o chr5-full-node72603.og
+```
+
+Post-node:
+
+```
+odgi extract --threads=24 -i chr5.full.og -n 78332 -o chr5-full-node78332.og
+```
+
+Get GRCh38 coordnates for the pre-node:
+
+```
+odgi paths -i chr5-full-node72603.og -L | grep GRCh38
+```
+
+```
+GRCh38#chr5:778710-778758
+```
+
+Get GRCh38 coordnates for the post-node:
+
+```
+odgi paths -i chr5-full-node78332.og -L | grep GRCh38
+```
+
+```
+GRCh38#chr5:778758-778766
+```
+
+
+odgi paths -i chr5-full-node78332.og -L | grep GRCh38
+GRCh38#chr5:778758-778766
+
+# Stick them together (i.e., don't save node graph)
+NODE=72603
+odgi extract --threads=48 -i chr5.full.og -n $NODE -o - | odgi paths -i - -L | grep GRCh38
+
+GRCh38#chr5:778710-778758
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Aside: GFA format
+
+The GFA (-g) format is interesting, because it contains LOTS of useful info 
+
+```
+odgi view -i chr5-grch38.og -g | grep  -w 72603 | more
+```
+
+```
+L       72601   +       72603   +       0M
+S       72603   AGATCATCTTGGATTATCCACAGCTGAGCCCTAAATCCAATGGTGAGT
+L       72603   +       78332   +       0M
+P       GRCh38#chr5:0-181538259 1+,2+,3441+,3442+,3444+,.....,72603+,78332+,....
+```
+
+Links:
+ 
+- https://github.com/GFA-spec/GFA-spec
+- http://lh3.github.io/2014/07/19/a-proposal-of-the-grapical-fragment-assembly-format
+
+**NB - odgi is using GFAv1**
+
+https://github.com/GFA-spec/GFA-spec/blob/master/GFA1.md
+
+```
+# 	Comment
+H 	Header
+S 	Segment
+L 	Link
+J 	Jump (since v1.2)
+C 	Containment
+P 	Path
+W 	Walk (since v1.1)
+```
+
+```
+odgi view -i chr5-grch38.og -g | grep  ^S | cut -d$'\t' -f2-3 | grep -A 1 -w -n ^72603
+```
+
+28520:72603     AGATCATCTTGGATTATCCACAGCTGAGCCCTAAATCCAATGGTGAGT
+28521-78332     GTCTCTAC
+
+
+
+
+
+
+
+
+
+
+
+
+Get the paths that hit these nodes (we only care about GRCh38 - we just want the coordinates):
+
+```
+odgi extract -i chr5-grch38-optim.og -n 78332 -o chr5-grch38-node78332.og
+```
+
+# Get the path info for GRCh38 at this node:
+odgi paths -i chr5-grch38-node78332.og -L
+# Output is:
+# GRCh38#chr5:0-181538259:2625506-2625526
+
+# So, combining the two:
+# Node 72603 is:
+# GRCh38#chr5:0-181538259:2382397-2382502
+# Node 78332 is:
+# GRCh38#chr5:0-181538259:2625506-2625526
+# But that does not helps me... There is still a gap!
+
 
 
 
