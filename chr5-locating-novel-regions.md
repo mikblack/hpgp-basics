@@ -65,7 +65,7 @@ cat chr5-grch38-node-list.txt | awk '{if($1 > 77874) {print $1; exit}}'
 78332
 ```
 
-It also gives the following error (in addition ot the correct answer):
+It also gives the following error (in addition to the correct answer):
 
 ```
 cat: write error: Broken pipe
