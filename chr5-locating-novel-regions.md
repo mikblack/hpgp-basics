@@ -16,7 +16,7 @@ GRCh38#chr5
 Extract the nodes for just the GRCh38 path (saves to `chr5-grch38.og`):
 
 ```
-odgi extract --threads=48 -i chr5.full.og --paths-to-extract=grch38-path-name-chr5.txt -r GRCh38#chr5 -o chr5-grch38.og
+odgi extract --threads=24 -i chr5.full.og --paths-to-extract=grch38-path-name-chr5.txt -r GRCh38#chr5 -o chr5-grch38.og
 ```
 
 Get the node IDs that are present in the GRCh38 path
@@ -221,7 +221,9 @@ So, that implies that the LAST base position is NOT part of the node sequence.
 
 For node 78332 above (chr5:778758-778766, GTCTCTAC), the G is at 778758, and the final C is at 778765.
 
-If we are thinking about NRS nodes, then the final base of the reference sequence is actually one base LESS than end coordinate for the pre-node.
+If we are thinking about NRS nodes, then the final base of the reference sequence is actually one base LESS than the end coordinate for the pre-node. 
+
+For our NRS node (77874) that is preceeded by node 72603 (which has GRCh38 coordinates chr5:778710-778758), node 72603 comes immediately after 778757 (not 778758, which is the first base of node 78332).
 
 
 ### Aside: GFA format
