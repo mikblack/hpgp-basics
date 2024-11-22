@@ -85,8 +85,7 @@ awk '{if($1 > 77874) {print $1; exit}}' chr5-grch38-node-list.txt
 
 **So, node 78332 is the first node AFTER node 77874 in the GRCh38 reference.**
 
-
-Extract the node position info (without needing a sorted/optimised graph):
+Get the GRCh38 position info for the node before (pre-node) and after (post-node) the NRS node of interest.
 
 Pre-node:
 
@@ -120,29 +119,109 @@ odgi paths -i chr5-full-node78332.og -L | grep GRCh38
 GRCh38#chr5:778758-778766
 ```
 
+We can combine the two steps above (i.e., don't save node graph).
 
-odgi paths -i chr5-full-node78332.og -L | grep GRCh38
-GRCh38#chr5:778758-778766
+Pre-node:
 
-# Stick them together (i.e., don't save node graph)
+```
 NODE=72603
-odgi extract --threads=48 -i chr5.full.og -n $NODE -o - | odgi paths -i - -L | grep GRCh38
+odgi extract --threads=24 -i chr5.full.og -n $NODE -o - | odgi paths -i - -L | grep GRCh38
+```
 
+```
 GRCh38#chr5:778710-778758
+```
 
+Post-node:
 
+```
+NODE=78332
+odgi extract --threads=24 -i chr5.full.og -n $NODE -o - | odgi paths -i - -L | grep GRCh38
+```
 
+```
+GRCh38#chr5:778758-778766
+```
 
+So the NRS node (in this case) is inserted at position 778758
 
+What is the sequence for these nodes?
 
+```
+odgi view -i chr5-grch38.og -g | grep  -w 72603 | grep ^S
+```
 
+```
+S       72603   AGATCATCTTGGATTATCCACAGCTGAGCCCTAAATCCAATGGTGAGT
+```
 
+```
+odgi view -i chr5-grch38.og -g | grep  -w 78332 | grep ^S
+```
 
+```
+S       78332   GTCTCTAC
+```
 
+Interesting - node 78332 has coordinates `chr5:778758-778766` which is 9 bases, but there are 
+only 8 bases in the sequence above. Let's check:
 
+```
+odgi view -i chr5-grch38.og -g | grep  -w 78332 | grep ^S | cut -d$'\t' -f 3 | awk '{print length($0)}'
+```
 
+```
+8
+```
 
+**NB:** have to be careful with `wc -c` for this, as it counts the end of line character:
 
+```
+odgi view -i chr5-grch38.og -g | grep  -w 78332 | grep ^S | cut -d$'\t' -f 3 | wc -c
+```
+
+```
+9
+```
+
+So, there are 9bp in chr5:778758-778766, but only 8bp in the node. What is going on? Is the first base (G) at position 778758 or 778759?
+
+Let's look at the first node:
+
+```
+NODE=1
+odgi extract --threads=24 -i chr5.full.og -n $NODE -o - | odgi paths -i - -L | grep GRCh38
+```
+
+```
+GRCh38#chr5:0-2252
+```
+
+Sequence for node 1:
+
+```
+odgi view -i chr5-grch38.og -g | grep  -w 1 | grep ^S
+```
+
+```
+S       1       NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+```
+
+Counts the N's:
+
+```
+odgi view -i chr5-grch38.og -g | grep  -w 1 | grep ^S | cut -d$'\t' -f 3 | awk '{print length($0)}'
+```
+
+```
+2252
+```
+
+So, that implies that the LAST base position is NOT part of the node sequence.
+
+For node 78332 above (chr5:778758-778766, GTCTCTAC), the G is at 778758, and the final C is at 778765.
+
+If we are thinking about NRS nodes, then the final base of the reference sequence is actually one base LESS than end coordinate for the pre-node.
 
 
 ### Aside: GFA format
@@ -180,45 +259,15 @@ P 	Path
 W 	Walk (since v1.1)
 ```
 
-```
-odgi view -i chr5-grch38.og -g | grep  ^S | cut -d$'\t' -f2-3 | grep -A 1 -w -n ^72603
-```
-
-28520:72603     AGATCATCTTGGATTATCCACAGCTGAGCCCTAAATCCAATGGTGAGT
-28521-78332     GTCTCTAC
-
-
-
-
-
-
-
-
-
-
-
-
-Get the paths that hit these nodes (we only care about GRCh38 - we just want the coordinates):
+Grab node 72603 details, and the next line (which happens to be 78332):
 
 ```
-odgi extract -i chr5-grch38-optim.og -n 78332 -o chr5-grch38-node78332.og
+odgi view -i chr5-grch38.og -g | grep  ^S | cut -d$'\t' -f2-3 | grep -A 1 -w ^72603
 ```
 
-# Get the path info for GRCh38 at this node:
-odgi paths -i chr5-grch38-node78332.og -L
-# Output is:
-# GRCh38#chr5:0-181538259:2625506-2625526
-
-# So, combining the two:
-# Node 72603 is:
-# GRCh38#chr5:0-181538259:2382397-2382502
-# Node 78332 is:
-# GRCh38#chr5:0-181538259:2625506-2625526
-# But that does not helps me... There is still a gap!
+```
+72603   AGATCATCTTGGATTATCCACAGCTGAGCCCTAAATCCAATGGTGAGT
+78332   GTCTCTAC
+```
 
 
-
-
-
-
-  
