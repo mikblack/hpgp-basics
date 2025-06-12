@@ -1,6 +1,6 @@
 # Human Pangenome Project basics
 
-Beginning framework for short workshop on using/exploring the current human pangenome draft
+Framework for short workshop on using/exploring the current human pangenome draft
 
 
 ## Human Pangenome resources:
